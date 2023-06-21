@@ -1,4 +1,4 @@
-mq-transport[sqs]@git+https://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@github.com/Bondifuzz/mq-transport.git@0.1.0
+mq-transport[sqs]@git+https://github.com/Bondifuzz/mq-transport.git@0.1.0
 aiohttp-sse-client==0.2.1
 kubernetes-asyncio==12.1.0
 prometheus-client==0.11.0

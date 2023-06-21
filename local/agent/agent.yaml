@@ -1,0 +1,104 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  generateName: fuzzer-
+  labels:
+    fuzzer_id: # runtime
+    fuzzer_rev: # runtime
+    fuzzer_engine: # runtime
+    agent_mode: # runtime
+    fuzzer_lang: # runtime
+spec:
+  activeDeadlineSeconds: 43200 # 12h
+  terminationGracePeriodSeconds: 60
+  restartPolicy: Never
+  # hostNetwork: true # XXX: only local test
+  imagePullSecrets:
+    - name: regcred
+  containers:
+    - name: fuzzer
+      image: # runtime
+      command: ['python', '-m', 'agent']
+      imagePullPolicy: IfNotPresent
+      securityContext:
+        privileged: false
+        readOnlyRootFilesystem: true
+        allowPrivilegeEscalation: false
+        # requiredDropCapabilities: []
+        # forbiddenSysctls: []
+      env:
+        - name: FUZZER_ID
+          value: # runtime
+        - name: FUZZER_REVISION
+          value: # runtime
+        - name: FUZZER_LANG
+          value: # runtime
+        - name: AGENT_MODE
+          value: # runtime
+        - name: TARGET_FUZZING_ITER_CNT
+          value: '10000000'
+        - name: TARGET_FIRST_RUN_SECONDS
+          value: '600' # 10m
+        - name: S3_URL
+          value: http://localhost:9000
+        - name: S3_ACCESS_KEY
+          value: root # XXX: use secrets in prod
+        - name: S3_SECRET_KEY
+          value: toortoor # XXX: use secrets in prod
+        - name: S3_BUCKET_FUZZERS
+          value: fuzzers-dev
+        - name: S3_BUCKET_DATA
+          value: data-dev
+        - name: RAM_VOLUME_PATH
+          value: /mnt/tmpfs
+        - name: RAM_VOLUME_LIMIT
+          value: '256000000'
+        - name: DISK_VOLUME_PATH
+          value: /mnt/disk
+        - name: DISK_VOLUME_LIMIT
+          value: '512000000'
+
+        - name: FUZZER_RAM_LIMIT
+          value: # runtime
+        - name: FUZZER_RUN_TIME_LIMIT
+          value: '30'
+        - name: FUZZER_NUM_ITERATIONS
+          value: '10000000'
+        - name: FUZZER_CRASH_MAX_SIZE
+          value: '10000'
+        - name: FUZZER_RUN_TIME_LIMIT_FIRSTRUN
+          value: '30'
+        - name: FUZZER_NUM_ITERATIONS_FIRSTRUN
+          value: '10000'
+        - name: AGENT_DROP_PERMISSIONS
+          value: '0'
+        - name: AGENT_DEFAULT_TARGET
+          value: 'target'
+
+      resources:
+        requests:
+          cpu: # runtime
+          memory: # runtime
+        limits:
+          cpu: # runtime
+          memory: # runtime
+      volumeMounts:
+        - name: tmpfs
+          mountPath: /mnt/tmpfs
+        - name: disk
+          mountPath: /mnt/disk
+        - name: logging-settings
+          mountPath: /libfuzzer-agent/logging.yaml # TODO: change folder
+          subPath: 'agent'
+  nodeSelector: # runtime
+  volumes:
+    - name: logging-settings
+      configMap:
+        name: agent-logging-settings
+    - name: tmpfs
+      emptyDir:
+        medium: Memory
+        sizeLimit: 256Mi
+    - name: disk
+      emptyDir:
+        sizeLimit: 512Mi

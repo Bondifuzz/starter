@@ -1,0 +1,19 @@
+version: 1
+disable_existing_loggers: True
+formatters:
+  fmt_console:
+    '()': 'logging.Formatter'
+    format: '%(asctime)s %(levelname)-8s %(name)-15s %(message)s'
+    datefmt: '%Y-%m-%d %H:%M:%S'
+handlers:
+  hnd_console:
+    class: logging.StreamHandler
+    formatter: fmt_console
+    level: NOTSET
+    stream: ext://sys.stdout
+loggers:
+  '': # root logger
+    handlers: [hnd_console]
+    level: ERROR
+
+# kubectl create configmap agent-logging-settings --from-file=agent=agent_logging.yaml

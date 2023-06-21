@@ -1,0 +1,125 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  generateName: fuzzer-
+  labels: # runtime
+spec:
+  terminationGracePeriodSeconds: 5
+  restartPolicy: Never
+  imagePullSecrets:
+    - name: regcred
+  nodeSelector: # runtime
+  tolerations: # runtime
+  volumes:
+    - name: tmpfs
+      emptyDir:
+        medium: Memory
+        sizeLimit: # runtime
+    - name: disk
+      emptyDir: {}
+  containers:
+    - name: agent
+      image: # runtime
+      # command: ['lalala']
+      # command: ['cat', 'aaa.txt']
+      # command: ['echo', 'Ok']
+      command: ['sleep', '600']
+      env:
+        - name: AGENT_MODE
+          value: # runtime
+        - name: FUZZER_SESSION_ID
+          value: # runtime
+        - name: FUZZER_USER_ID
+          value: # runtime
+        - name: FUZZER_PROJECT_ID
+          value: # runtime
+        - name: FUZZER_POOL_ID
+          value: # runtime
+        - name: FUZZER_ID
+          value: # runtime
+        - name: FUZZER_REV
+          value: # runtime
+        - name: FUZZER_ENGINE
+          value: # runtime
+        - name: FUZZER_LANG
+          value: # runtime
+        - name: MQ_BROKER
+          value: sqs
+        - name: MQ_QUEUE_DLQ
+          value: dlq
+        - name: MQ_QUEUE_SCHEDULER
+          value: mq-scheduler
+        - name: MQ_QUEUE_CRASH_ANALYZER
+          value: mq-crash-analyzer
+        - name: MQ_REGION
+          value: ru-central1
+        - name: MQ_URL
+          value: http://host.docker.internal:9324
+        - name: MQ_PASSWORD
+          value: x
+        - name: MQ_USERNAME
+          value: x
+        - name: S3_URL
+          value: http://host.docker.internal:9000
+        - name: S3_ACCESS_KEY
+          value: root
+        - name: S3_SECRET_KEY
+          value: toortoor
+        - name: S3_BUCKET_FUZZERS
+          value: fuzzers-dev
+        - name: S3_BUCKET_DATA
+          value: data-dev
+        - name: VOLUMES_TMPFS
+          value: /bondi/volumes/tmpfs
+        - name: VOLUMES_DISK
+          value: /bondi/volumes/disk
+        - name: FUZZER_RAM_LIMIT
+          value: # runtime
+        - name: FUZZER_RUN_TIME_LIMIT
+          value: "21600"
+        - name: FUZZER_NUM_ITERATIONS
+          value: "2000000"
+        - name: FUZZER_CRASH_MAX_SIZE
+          value: "10000"
+        - name: FUZZER_RUN_TIME_LIMIT_FIRSTRUN
+          value: "30"
+        - name: FUZZER_NUM_ITERATIONS_FIRSTRUN
+          value: "10000"
+        - name: AGENT_DEFAULT_TARGET
+          value: "target"
+        - name: KUBERNETES_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: KUBERNETES_POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: KUBERNETES_USER_CONTAINER
+          value: sandbox
+        - name: RUNNER_PATH
+          value: /bondi/bin/runner
+        - name: RUNNER_POLL_INTERVAL_MS
+          value: "500"
+        - name: RUNNER_GRACE_PERIOD_SEC
+          value: "60"
+      resources:
+        requests: # runtime
+        limits: # runtime
+      volumeMounts:
+        - name: tmpfs
+          mountPath: /bondi/volumes/tmpfs
+        - name: disk
+          mountPath: /bondi/volumes/disk
+    - name: sandbox
+      image: # runtime
+      command: ['sleep', 'infinity']
+      env: []
+      resources:
+        requests: # runtime
+        limits: # runtime
+      volumeMounts:
+        - name: tmpfs
+          mountPath: /bondi/volumes/tmpfs
+        - name: disk
+          mountPath: /bondi/volumes/disk

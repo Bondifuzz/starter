@@ -1,0 +1,21 @@
+users:
+- username: starter
+  password: starter
+databases:
+- name: Starter
+  collections:
+  - name: UnsentMessages
+    type: document
+    indexes:
+    - type: ttl
+      fields:
+      - expiration_date
+      name: autodelete_saved_launches
+      expireAfter: 0
+  - name: Launches
+    type: document
+    indexes: []
+grants:
+- username: starter
+  database: Starter
+  permissions: rw

@@ -98,10 +98,10 @@ TODO
 pip3 install -r requirements-test.txt
 
 # Run unit tests
-pytest -vv api-gateway/tests/unit
+pytest -vv starter/tests/unit
 
 # Run functional tests
-pytest -vv api-gateway/tests/integration
+pytest -vv starter/tests/integration
 ```
 
 ### Spell checking

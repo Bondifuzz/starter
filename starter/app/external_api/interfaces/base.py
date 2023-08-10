@@ -55,7 +55,7 @@ class ExternalAPIBase:
         except ValidationError as e:
             raise EAPIResponseParseError() from e
 
-        return parsed.result
+        return parsed
 
     @staticmethod
     def _parse_error_and_raise(json_data: Any):

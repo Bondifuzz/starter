@@ -18,13 +18,7 @@ class ListResultModel(BaseModel):
     pg_size: int
     items: list
 
-
-class ListResponseModel(BaseModel):
-    result: ListResultModel
-
-
 ########################################
-
 
 class ORMPoolHealth(str, Enum):
     ok = "Ok"

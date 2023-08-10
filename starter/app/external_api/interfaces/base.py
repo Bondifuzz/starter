@@ -13,7 +13,7 @@ from starter.app.external_api.errors import (
     EAPIServerError,
     ExternalAPIError,
 )
-from starter.app.external_api.models import ListResponseModel
+from starter.app.external_api.models import ListResultModel
 from starter.app.util.speedup import json
 
 
@@ -51,7 +51,7 @@ class ExternalAPIBase:
     def _parse_list_response(json_data: Any):
 
         try:
-            parsed = ListResponseModel.parse_obj(json_data)
+            parsed = ListResultModel.parse_obj(json_data)
         except ValidationError as e:
             raise EAPIResponseParseError() from e
 

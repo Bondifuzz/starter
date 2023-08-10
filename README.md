@@ -71,7 +71,7 @@ python3 -m uvicorn \
 code --install-extension ms-python.python
 code --install-extension ms-python.vscode-pylance
 
-# Spell cehcking
+# Spell checking
 code --install-extension streetsidesoftware.code-spell-checker
 
 # Config
